@@ -1,0 +1,128 @@
+---
+title: "actuary"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{actuary}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(actuary)
+```
+
+# Reference dates functions
+
+## Purpose
+
+Business reports are prepared once a month, once a quarter or once a year.
+Analysts often compare business results against previous periods. 
+First and last days of a given period are of special significance for reporting.
+
+The `dref_` prefix stands for **d**ate **ref**erence functions. 
+The functions with the `dref_` prefix return a reference date to the chosen date.
+
+## Functions
+
+The functions work within three types of periods:
+
+* month
+* quarter
+* year
+
+The functions return one of the four type of reference dates:
+
+* first day
+* first working day
+* last day
+* last working day
+
+The names of functions combine the `dref_` prefix and the first letters 
+of the chosen reference date.
+
+For example, `dref_fdoy()` returns the **f**irst **d**ay **o**f **y**ear.
+
+The table summarizes all reference date functions.
+
+|                   | of month       | of quarter     | of year        |
+|-------------------|----------------|----------------|----------------|
+| first day         | `dref_fdom()`  | `dref_fdoq()`  | `dref_fdoy()`  |
+| first working day | `dref_fwdom()` | `dref_fwdoq()` | `dref_fwdoy()` |
+| last day          | `dref_ldom()`  | `dref_ldoq()`  | `dref_ldoy()`  |
+| last working day  | `dref_lwdom()` | `dref_lwdoq()` | `dref_lwdoy()` |
+
+All functions take the argument `date`, which is the base date.
+The functions return the result in reference to the base date.
+The functions always work within a specific period: a month, a quarter 
+or an year.
+
+### Monthly periods
+
+The reference dates in the image below can be retrieved 
+with the following functions:
+
+* `dref_fdom()` - dark blue
+* `dref_fwdom()` - light blue
+* `dref_ldom()` - light green
+* `dref_lwdom()` - dark green
+
+The base date has been marked with orange.
+
+```{r, echo = FALSE, out.width = "600px"}
+knitr::include_graphics("img/dref_monthly.png")
+```
+
+### Quarterly periods
+
+
+The reference dates in the image below can be retrieved 
+with the following functions:
+
+* `dref_fdoq()` - dark blue
+* `dref_fwdoq()` - light blue
+* `dref_ldoq()` - light green
+* `dref_lwdoq()` - dark green
+
+The base date has been marked with orange.
+
+**Watch out!** 
+The first day of a year is the same as the first working day of a year. 
+The last day of a year is the same as the last working day of a year.
+Hence, the same day is marked with two colors (darker and lighter).
+
+```{r, echo = FALSE, out.width = "600px"}
+knitr::include_graphics("img/dref_quarterly.png")
+```
+
+### Yearly periods
+
+The reference dates in the image below can be retrieved 
+with the following functions:
+
+* `dref_fdoy()` - dark blue
+* `dref_fwdoy()` - light blue
+* `dref_ldoy()` - light green
+* `dref_lwdoy()` - dark green
+
+The base date has been marked with orange.
+
+**Watch out!** 
+The first day of a year is the same as the first working day of a year. 
+The last day of a year is the same as the last working day of a year.
+Hence, the same day is marked with two colors (darker and lighter).
+
+```{r, echo = FALSE, out.width = "600px"}
+knitr::include_graphics("img/dref_yearly.png")
+```
+
+
+
+
+
