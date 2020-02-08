@@ -1,4 +1,4 @@
-#' Last working day of a year
+#' Last working day of an year
 #'
 #' Returns the last working day of a year in reference to the base date.
 #'
