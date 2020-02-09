@@ -1,4 +1,4 @@
 library(testthat)
-library(actuary)
+library(actuaryr)
 
-test_check("actuary")
+test_check("actuaryr")

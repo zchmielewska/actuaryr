@@ -2,7 +2,7 @@
 % Please edit documentation in R/dref_lwdoy.R
 \name{dref_lwdoy}
 \alias{dref_lwdoy}
-\title{Last working day of a year}
+\title{Last working day of an year}
 \usage{
 dref_lwdoy(date)
 }

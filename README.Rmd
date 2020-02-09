@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 # actuary
 
 <!-- badges: start -->
+[![Travis build status](https://travis-ci.org/zchmielewska/actuaryr.svg?branch=master)](https://travis-ci.org/zchmielewska/actuaryr)
 <!-- badges: end -->
 
 The goal of actuary package is to support the actuarial workload.
