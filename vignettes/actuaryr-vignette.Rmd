@@ -1,8 +1,8 @@
 ---
-title: "actuary"
+title: "actuaryr-vignette"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{actuary}
+  %\VignetteIndexEntry{actuaryr-vignette}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(actuary)
+library(actuaryr)
 ```
 
 # Reference dates functions
@@ -121,8 +121,3 @@ Hence, the same day is marked with two colors (darker and lighter).
 ```{r, echo = FALSE, out.width = "600px"}
 knitr::include_graphics("img/dref_yearly.png")
 ```
-
-
-
-
-
