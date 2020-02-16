@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
   out.width = "100%"
 )
 ```
-# actuary
+# actuaryr
 
 <!-- badges: start -->
 [![Travis build status](https://travis-ci.org/zchmielewska/actuaryr.svg?branch=master)](https://travis-ci.org/zchmielewska/actuaryr)
