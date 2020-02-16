@@ -15,3 +15,6 @@ date
 \description{
 Returns the last day of a month in reference to the base date.
 }
+\examples{
+dref_ldoq("2020-09-21")
+}

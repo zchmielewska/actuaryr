@@ -8,6 +8,7 @@
 #' @export
 #'
 #' @examples
+#' dref_ldoq("2020-09-21")
 dref_ldoq <- function(date) {
   if(!inherits(date, "Date")) {
     tryCatch(
