@@ -20,30 +20,57 @@ knitr::opts_chunk$set(
 
 The goal of actuary package is to support the actuarial workload.
 
-## Installation
-
-You can install the development version from [GitHub](https://github.com/) with:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("zchmielewska/actuary")
-```
 ## Example
 
-This is an example of loading EIOPA RFR curves:
-
-```{r eval = FALSE}
-library(actuary)
-load_RFR("20181231", "Euro")
-load_RFR("20190331", "Poland", VA = TRUE)
-load_RFR("20190630", "United States", scenario = "up")
-
+Retrieve the date in reference to the base date.
+```{r}
+library(actuaryr)
 ```
 
-Load VA and other parameters:
+Retrieve:
 
-```{r eval = FALSE}
-library(actuary)
-load_VA("20181231", "Poland")
-load_parameter("20181231", country = "Bulgaria", parameter = "UFR")
+* the first day of a month
+* the first day of a quarter
+* the first day of an year
+
+```{r}
+dref_fdom("2019-09-21")
+dref_fdoq("2019-09-21")
+dref_fdoy("2019-09-21")
+```
+
+Retrieve:
+
+* the first working day of a month
+* the first working day of a quarter
+* the first working day of an year
+
+```{r}
+dref_fwdom("2019-09-21")
+dref_fwdoq("2019-09-21")
+dref_fwdoy("2019-09-21")
+```
+
+Retrieve:
+
+* the last day of a month
+* the last day of a quarter
+* the last day of an year
+
+```{r}
+dref_ldom("2019-09-21")
+dref_ldoq("2019-09-21")
+dref_ldoy("2019-09-21")
+```
+
+Retrieve:
+
+* the last working day of a month
+* the last working day of a quarter
+* the last working day of an year
+
+```{r}
+dref_lwdom("2019-09-21")
+dref_lwdoq("2019-09-21")
+dref_lwdoy("2019-09-21")
 ```

@@ -7,7 +7,7 @@ Authors@R:
            role = c("aut", "cre"),
            email = "zchmielewska@gmail.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: The package contains functions to make actuarial work easier.
+Description: Tools to make actuarial work easier.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
