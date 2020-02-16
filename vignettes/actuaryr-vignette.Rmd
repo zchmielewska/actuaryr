@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(actuaryr)
 ```
 
-# Reference dates functions
+# Date reference functions
 
 ## Purpose
 
@@ -33,23 +33,23 @@ The functions with the `dref_` prefix return a reference date to the chosen date
 
 The functions work within three types of periods:
 
-* month
-* quarter
-* year
+* a month
+* a quarter
+* an year
 
-The functions return one of the four type of reference dates:
+The functions return one of the four types of reference dates:
 
-* first day
-* first working day
-* last day
-* last working day
+* the first day
+* the first working day
+* the last day
+* the last working day
 
 The names of functions combine the `dref_` prefix and the first letters 
 of the chosen reference date.
 
-For example, `dref_fdoy()` returns the **f**irst **d**ay **o**f **y**ear.
+For example, `dref_fdoy()` returns the **f**irst **d**ay **o**f an **y**ear.
 
-The table summarizes all reference date functions.
+The table summarizes all date reference functions.
 
 |                   | of month       | of quarter     | of year        |
 |-------------------|----------------|----------------|----------------|

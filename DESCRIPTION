@@ -1,20 +1,18 @@
 Package: actuaryr
 Title: Tools for Actuaries
-Version: 0.0.0.9000
+Version: 1.0.0
 Authors@R: 
     person(given = "Zuzanna",
            family = "Chmielewska",
            role = c("aut", "cre"),
            email = "zchmielewska@gmail.com",
            comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: The package contains function and datasets that aim to help with the actuarial workload.
+Description: The package contains functions to make actuarial work easier.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.1.1
 Imports: 
-    utils,
-    readxl,
     lubridate
 Suggests: 
     testthat,
