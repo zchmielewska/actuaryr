@@ -5,7 +5,8 @@
 
 ## R CMD check --as-cran results
 
-There were no ERRORs, WARNINGs nor NOTEs.
+There were no ERRORs nor WARNINGss.
+There was 1 NOTE that this is a new submission.
 
 ## Resubmission comments
 
