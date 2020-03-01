@@ -1,5 +1,5 @@
 Package: actuaryr
-Title: Tools for Actuaries
+Title: Develop Actuarial Models
 Version: 1.0.0
 Authors@R: 
     person(given = "Zuzanna",
@@ -7,7 +7,12 @@ Authors@R:
            role = c("aut", "cre"),
            email = "zchmielewska@gmail.com",
            comment = c(ORCID = "0000-0001-7622-3321"))
-Description: Tools to make actuarial work easier.
+Description: Actuarial reports are prepared for the last day of a specific 
+    period, such as a month, a quarter or a year. Actuarial models assume that 
+    certain events happen at the beginning or end of periods. The actuaryr 
+    package contains functions to easily refer the first or last (working) day 
+    within a specific period relative to a base date to facilitate actuarial 
+    reporting.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
