@@ -15,8 +15,8 @@ compare <- function(x, y) {
   # cut uneven number of rows
   # produce comparison result
  
-  x <- dplyr::as_tibble(x)
-  y <- dplyr::as_tibble(y)
+  # x <- dplyr::as_tibble(x)
+  # y <- dplyr::as_tibble(y)
   
   not.x <- colnames(y)[!c(colnames(y) %in% colnames(x))]
   not.y <- colnames(x)[!c(colnames(x) %in% colnames(y))]
@@ -24,9 +24,30 @@ compare <- function(x, y) {
   if(length(not.x) > 0) warning(paste("Columns in y but not in x:", not.x))
   if(length(not.y) > 0) warning(paste("Columns in x but not in y:", not.y))
 
-  common.cols <- colnames(x)[colnames(x) %in% colnames(y)]
+  util.types <- data.frame(
+    col.type = c("logical", "integer", "double", "character"),
+    power = 1:4,
+    stringsAsFactors = FALSE
+  )
+  
+  # factors, POSIXct and Dates are converted to strings
+  for(j in 1:ncol(x)) {
+    class <- class(x[, j])[1] # POSIXct inherits from two classes
+    if(class == "factor" | class == "Date" | class == "POSIXct") {
+      x[, j] <- as.character(x[, j])
+    } 
+  }
+  
+  for(j in 1:ncol(y)) {
+    class <- class(y[, j])[1] # POSIXct inherits from two classes
+    if(class == "factor" | class == "Date" | class == "POSIXct") {
+      y[, j] <- as.character(y[, j])
+    } 
+  }
   
   # a = common columns
+  common.cols <- colnames(x)[colnames(x) %in% colnames(y)]
+  
   x.a <- x[, common.cols]
   y.a <- y[, common.cols]
   
@@ -44,12 +65,6 @@ compare <- function(x, y) {
     column = common.cols,
     col.type1 = col.types1,
     col.type2 = col.types2,
-    stringsAsFactors = FALSE
-  )
-  
-  util.types <- data.frame(
-    col.type = c("logical", "integer", "double", "character"),
-    power = 1:4,
     stringsAsFactors = FALSE
   )
   
@@ -99,37 +114,59 @@ compare <- function(x, y) {
 }
 
 
+# different amount of rows
+# only one column
+# warning messages
+# separate functions
 
-# same - numericals
+
 
 x <- data.frame(
-  x = rep(1, 3),
-  y = rep(2, 3),
-  z = rep(3, 3)
+  a = rep(1, 3),
+  b = rep(2, 3),
+  c = rep(3, 3)
 )
-
 y <- data.frame(
-  x = rep(1, 3),
-  y = rep(2, 3),
-  z = rep(3, 3)
+  a = rep(1, 3),
+  b = rep(2, 3),
+  c = rep(3, 3)
 )
 
+# different amount of columns
+x <- data.frame(
+  a = rep(1, 3),
+  b = rep(2, 3),
+  c = rep(3, 3)
+)
+y <- data.frame(
+  a = rep(1, 3),
+  b = rep(2, 3)
+)
 compare(x, y)
 
+# different types
+x <- data.frame(a = 1:3,
+                b = 4:6)
+y <- data.frame(a = letters[1:3],
+                b = letters[4:6])
+compare(x, y)
 
-# co zrobić z factorami?
+# the same - characters
+x <- data.frame(a = letters[1:3],
+                b = letters[4:6])
+y <- data.frame(a = letters[1:3],
+                b = letters[4:6])
+compare(x, y)
 
-# same - characters
-
-x2 <- data.frame(v = letters[1:3])
-y2 <- data.frame(v = letters[1:3])
-compare(x2, y2)
-
-
-
-
-tib <- dplyr::tibble(
-  x = 1:3,
-  y = rep("a", 3)
+# the same - numericals
+x <- data.frame(
+  a = rep(1, 3),
+  b = rep(2, 3),
+  c = rep(3, 3)
 )
-
+y <- data.frame(
+  a = rep(1, 3),
+  b = rep(2, 3),
+  c = rep(3, 3)
+)
+compare(x, y)
