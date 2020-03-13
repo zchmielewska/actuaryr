@@ -10,46 +10,18 @@
 #' @examples
 compare <- function(x, y) { 
 
-  # find common and uncommon columns
-  # change type of different columns
-  # cut uneven number of rows
-  # produce comparison result
- 
-  # x <- dplyr::as_tibble(x)
-  # y <- dplyr::as_tibble(y)
-  
-  not.x <- colnames(y)[!c(colnames(y) %in% colnames(x))]
-  not.y <- colnames(x)[!c(colnames(x) %in% colnames(y))]
-  
-  if(length(not.x) > 0) warning(paste("Columns in y but not in x:", not.x))
-  if(length(not.y) > 0) warning(paste("Columns in x but not in y:", not.y))
-
   util.types <- data.frame(
     col.type = c("logical", "integer", "double", "character"),
     power = 1:4,
     stringsAsFactors = FALSE
   )
   
-  # factors, POSIXct and Dates are converted to strings
-  for(j in 1:ncol(x)) {
-    class <- class(x[, j])[1] # POSIXct inherits from two classes
-    if(class == "factor" | class == "Date" | class == "POSIXct") {
-      x[, j] <- as.character(x[, j])
-    } 
-  }
+  tables <- list(x = x, y = y)
+  tables <- .coerceToCharacter(tables) # factors, POSIXct and Dates are not handled
+  tables <- .getCommonColumns(tables)
+  tables <- .getCommonNrRows(tables)
   
-  for(j in 1:ncol(y)) {
-    class <- class(y[, j])[1] # POSIXct inherits from two classes
-    if(class == "factor" | class == "Date" | class == "POSIXct") {
-      y[, j] <- as.character(y[, j])
-    } 
-  }
-  
-  # a = common columns
-  common.cols <- colnames(x)[colnames(x) %in% colnames(y)]
-  
-  x.a <- x[, common.cols]
-  y.a <- y[, common.cols]
+  # types
   
   col.types1 <- c()
   for(i in 1:ncol(x.a)) {
@@ -82,25 +54,21 @@ compare <- function(x, y) {
   y.b <- y.a
   for(r in 1:nrow(types.tally)) {
     if(types.tally[r, "same"] == FALSE) {
-      column <- types.tally[r, "column"]
-      col.type <- types.tally[r, "stronger.type"]
-      if(col.type == "integer")   x.b[, column] <- as.integer(x.b[, column])
-      if(col.type == "double")    x.b[, column] <- as.double(x.b[, column])
-      if(col.type == "character") x.b[, column] <- as.character(x.b[, column])
-      if(col.type == "integer")   y.b[, column] <- as.integer(y.b[, column])
-      if(col.type == "double")    y.b[, column] <- as.double(y.b[, column])
-      if(col.type == "character") y.b[, column] <- as.character(y.b[, column])
+      row <- types.tally[r, ]
+      
+      if(row$power2 > row$power1) {
+        warning(paste0(row$column," from x has been coerced from ", row$col.type1, " to ", row$stronger.type,"."))
+        x.b[, row$column] <- .as(x.b[, row$column], type = row$stronger.type)
+      } else {
+        warning(paste0(row$column," from y has been coerced from ", row$col.type2, " to ", row$stronger.type,"."))
+        y.b[, row$column] <- .as(y.b[, row$column], type = row$stronger.type)
+      }
     }
   }
   
-  # c = common columns, types and number of rows
-  n1 <- nrow(x)
-  n2 <- nrow(y)
-  x.c <- x.b
-  y.c <- y.b
-  if(n1 > n2) x.c <- x.b[1:n2, ]
-  if(n2 > n1) y.c <- y.b[1:n1, ]
   
+  
+  # compare tables
   result <- x.c
   for(j in 1:ncol(x.c)) {
     if(typeof(x.c[, j]) == "character") {
@@ -113,14 +81,11 @@ compare <- function(x, y) {
   return(result)
 }
 
+# logicals?
+# one column?
+# not data frames
 
-# different amount of rows
-# only one column
-# warning messages
-# separate functions
-
-
-
+# ex. the same - numericals
 x <- data.frame(
   a = rep(1, 3),
   b = rep(2, 3),
@@ -131,8 +96,25 @@ y <- data.frame(
   b = rep(2, 3),
   c = rep(3, 3)
 )
+compare(x, y)
 
-# different amount of columns
+# ex. the same - strings
+x <- data.frame(a = letters[1:3],
+                b = letters[4:6],
+                stringsAsFactors = FALSE)
+y <- data.frame(a = letters[1:3],
+                b = letters[4:6],
+                stringsAsFactors = FALSE)
+compare(x, y)
+
+# ex. the same - factors
+x <- data.frame(a = letters[1:3],
+                b = letters[4:6])
+y <- data.frame(a = letters[1:3],
+                b = letters[4:6])
+compare(x, y)
+
+# ex. different amount of columns
 x <- data.frame(
   a = rep(1, 3),
   b = rep(2, 3),
@@ -144,29 +126,32 @@ y <- data.frame(
 )
 compare(x, y)
 
-# different types
+# ex. factors / Dates / POSIXct
 x <- data.frame(a = 1:3,
                 b = 4:6)
 y <- data.frame(a = letters[1:3],
                 b = letters[4:6])
 compare(x, y)
 
-# the same - characters
-x <- data.frame(a = letters[1:3],
-                b = letters[4:6])
-y <- data.frame(a = letters[1:3],
-                b = letters[4:6])
-compare(x, y)
-
-# the same - numericals
+# ex. different number of rows
 x <- data.frame(
-  a = rep(1, 3),
-  b = rep(2, 3),
-  c = rep(3, 3)
+  a = rep(1, 2),
+  b = rep(2, 2),
+  c = rep(3, 2)
 )
 y <- data.frame(
   a = rep(1, 3),
   b = rep(2, 3),
   c = rep(3, 3)
+)
+compare(x, y)
+
+# ex. logicals
+x <- data.frame(
+  a = c(TRUE, FALSE)
+)
+
+y <- data.frame(
+  a = c(FALSE, FALSE)
 )
 compare(x, y)
