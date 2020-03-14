@@ -39,4 +39,3 @@ test_that("dref_ytd() returns year-to-date", {
   expect_equal(dref_ytd("2020-06-30"), as.Date("2019-12-31"))
   expect_equal(dref_ytd("2019-12-31"), as.Date("2018-12-31"))
 })
-

@@ -19,7 +19,8 @@
   for(j in 1:ncol(x)) {
     class <- class(x[, j])[1] # POSIXct inherits from two classes
     if(class == "factor" | class == "Date" | class == "POSIXct") {
-      cat(yellow(colnames(x)[j], "from", bold("x"), "has been coerced from", class, "to character."))
+      cat(crayon::yellow(paste0("Column '", colnames(x)[j], "' in ", crayon::bold("x"), 
+                                " has been coerced from ", class, " to character.\n")))
       x[, j] <- as.character(x[, j])
     } 
   }
@@ -27,7 +28,8 @@
   for(j in 1:ncol(y)) {
     class <- class(y[, j])[1]
     if(class == "factor" | class == "Date" | class == "POSIXct") {
-      cat(yellow(colnames(y)[j], "from", bold("y"), "has been coerced from", class, "to character."))
+      cat(crayon::yellow(paste0("Column '", colnames(y)[j], "' in ", crayon::bold("y"), 
+                                " has been coerced from ", class, " to character.\n")))
       y[, j] <- as.character(y[, j])
     } 
   }
@@ -43,15 +45,19 @@
   not.in.x <- colnames(y)[!c(colnames(y) %in% colnames(x))]
   not.in.y <- colnames(x)[!c(colnames(x) %in% colnames(y))]
   
-  if(length(not.in.x) > 0) cat(yellow("Column(s)", not.in.x, "are not in", bold("y"), 
-                                      "so they have been removed from comparison."))
-  if(length(not.in.y) > 0) cat(yellow("Column(s)", not.in.y, "are not in", bold("x"), 
-                                      "so they have been removed from comparison."))
+  if(length(not.in.x) > 0) {
+    cat(crayon::yellow(paste0("Column(s) '", not.in.x, "' are not in ", 
+                              crayon::bold("y"), " so they have been removed from the comparison.\n")))
+  }
+  if(length(not.in.y) > 0) {
+    cat(crayon::yellow(paste0("Column(s) '", not.in.y, "' are not in ", 
+                              crayon::bold("x"), " so they have been removed from the comparison.\n")))
+  }
   
   common.columns <- colnames(x)[colnames(x) %in% colnames(y)]
   
-  x <- x[, common.columns]
-  y <- y[, common.columns]
+  x <- x[common.columns]
+  y <- y[common.columns]
   
   tables <- list(x = x, y = y)
   return(tables)
@@ -64,13 +70,72 @@
   n1 <- nrow(x)
   n2 <- nrow(y)
   if(n1 > n2) {
-    warning(paste0("x has more rows than y. The last ", n1-n2, " row(s) of x have been removed."))
+    cat(crayon::yellow(paste0(crayon::bold("x"), " has more rows than ", 
+                              crayon::bold("y"), ". The last ", n1-n2, 
+                              " row(s) of ", crayon::bold("x"), 
+                              " have been removed.\n")))
     x <- x[1:n2, ]
   }
   
   if(n2 > n1) {
-    warning(paste0("y has more rows than x. The last ", n2-n1, " row(s) of y have been removed."))
+    cat(crayon::yellow(paste0(crayon::bold("y"), " has more rows than ", 
+                              crayon::bold("x"), ". The last ", n2-n1, 
+                              " row(s) of ", crayon::bold("y"), 
+                              " have been removed.\n")))
     y <- y[1:n1, ]
+  }
+  
+  tables <- list(x = x, y = y)
+  return(tables)
+}
+
+.getCommonTypes <- function(tables) {
+  x <- tables$x
+  y <- tables$y
+  
+  util.types <- data.frame(
+    ColType = c("logical", "integer", "double", "character"),
+    Power = 1:4,
+    stringsAsFactors = FALSE
+  )
+  
+  col.types.x <- c()
+  col.types.y <- c()
+  for(i in 1:ncol(x)) col.types.x[i] <- typeof(x[, i])
+  for(i in 1:ncol(y)) col.types.y[i] <- typeof(y[, i])
+  
+  col.types <- data.frame(
+    Column = colnames(x),
+    ColTypeX = col.types.x,
+    ColTypeY = col.types.y,
+    stringsAsFactors = FALSE
+  )
+  
+  types.tally <- col.types %>% 
+    dplyr::left_join(util.types, by = c("ColTypeX" = "ColType")) %>%
+    dplyr::rename(PowerX = Power) %>%
+    dplyr::left_join(util.types, by = c("ColTypeY" = "ColType")) %>% 
+    dplyr::rename(PowerY = Power) %>% 
+    dplyr::mutate(Same = (ColTypeX == ColTypeY)) %>% 
+    dplyr::mutate(StrongerType = 
+                    purrr::pmap_chr(list(PowerX, PowerY, ColTypeX, ColTypeY), 
+                                    function(p1, p2, ct1, ct2) if(p1 > p2) ct1 else ct2))
+  
+  for(r in 1:nrow(types.tally)) {
+    if(types.tally[r, "Same"] == FALSE) {
+      row <- types.tally[r, ]
+      if(row$PowerY > row$PowerX) {
+        cat(crayon::yellow(paste0("Column '", row$Column, "' in ", crayon::bold("x"), 
+                                  " has been coerced from ", row$ColTypeX, 
+                                  " to ", row$StrongerType, ".\n")))
+        x[, row$Column] <- .as(x[, row$Column], type = row$StrongerType)
+      } else {
+        cat(crayon::yellow(paste0("Column '", row$Column, "' in ", crayon::bold("y"), 
+                                  " has been coerced from ", row$ColTypeY, 
+                                  " to ", row$StrongerType, ".\n")))
+        y[, row$column] <- .as(y[, row$Column], type = row$StrongerType)
+      }
+    }
   }
   
   tables <- list(x = x, y = y)

@@ -1,5 +1,5 @@
 {
-    "path" : "~/GitHub/actuaryr/vignettes",
+    "path" : "~/GitHub/actuaryr/tests/testthat",
     "sortOrder" : [
         {
             "ascending" : true,

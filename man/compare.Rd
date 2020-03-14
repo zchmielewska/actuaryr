@@ -2,18 +2,29 @@
 % Please edit documentation in R/compare.R
 \name{compare}
 \alias{compare}
-\title{Title}
+\title{Compare two tables}
 \usage{
-compare(df1, df2)
+compare(x, y)
 }
 \arguments{
-\item{df1}{}
+\item{x}{the first data frame}
 
-\item{df2}{}
+\item{y}{the second data frame}
 }
 \value{
-
+data frame
 }
 \description{
-Title
+Compare two tables
+}
+\examples{
+x <- data.frame(
+  a = rep(1, 3),
+  b = rep(2, 3)
+)
+y <- data.frame(
+  a = rep(2, 3),
+  b = rep(2, 3)
+)
+compare(x, y)
 }
