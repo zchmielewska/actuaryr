@@ -47,11 +47,11 @@
   
   if(length(not.in.x) > 0) {
     cat(crayon::yellow(paste0("Column(s) '", not.in.x, "' are not in ", 
-                              crayon::bold("RHS"), " so they have been removed from the comparison.\n")))
+                              crayon::bold("LHS"), " so they have been removed from the comparison.\n")))
   }
   if(length(not.in.y) > 0) {
     cat(crayon::yellow(paste0("Column(s) '", not.in.y, "' are not in ", 
-                              crayon::bold("LHS"), " so they have been removed from the comparison.\n")))
+                              crayon::bold("RHS"), " so they have been removed from the comparison.\n")))
   }
   
   common.columns <- colnames(x)[colnames(x) %in% colnames(y)]
