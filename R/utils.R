@@ -19,7 +19,7 @@
   for(j in 1:ncol(x)) {
     class <- class(x[, j])[1] # POSIXct inherits from two classes
     if(class == "factor" | class == "Date" | class == "POSIXct") {
-      cat(crayon::yellow(paste0("Column '", colnames(x)[j], "' in ", crayon::bold("x"), 
+      cat(crayon::yellow(paste0("Column '", colnames(x)[j], "' in ", crayon::bold("LHS"), 
                                 " has been coerced from ", class, " to character.\n")))
       x[, j] <- as.character(x[, j])
     } 
@@ -28,7 +28,7 @@
   for(j in 1:ncol(y)) {
     class <- class(y[, j])[1]
     if(class == "factor" | class == "Date" | class == "POSIXct") {
-      cat(crayon::yellow(paste0("Column '", colnames(y)[j], "' in ", crayon::bold("y"), 
+      cat(crayon::yellow(paste0("Column '", colnames(y)[j], "' in ", crayon::bold("RHS"), 
                                 " has been coerced from ", class, " to character.\n")))
       y[, j] <- as.character(y[, j])
     } 
@@ -47,11 +47,11 @@
   
   if(length(not.in.x) > 0) {
     cat(crayon::yellow(paste0("Column(s) '", not.in.x, "' are not in ", 
-                              crayon::bold("y"), " so they have been removed from the comparison.\n")))
+                              crayon::bold("RHS"), " so they have been removed from the comparison.\n")))
   }
   if(length(not.in.y) > 0) {
     cat(crayon::yellow(paste0("Column(s) '", not.in.y, "' are not in ", 
-                              crayon::bold("x"), " so they have been removed from the comparison.\n")))
+                              crayon::bold("LHS"), " so they have been removed from the comparison.\n")))
   }
   
   common.columns <- colnames(x)[colnames(x) %in% colnames(y)]
@@ -70,17 +70,17 @@
   n1 <- nrow(x)
   n2 <- nrow(y)
   if(n1 > n2) {
-    cat(crayon::yellow(paste0(crayon::bold("x"), " has more rows than ", 
-                              crayon::bold("y"), ". The last ", n1-n2, 
-                              " row(s) of ", crayon::bold("x"), 
+    cat(crayon::yellow(paste0(crayon::bold("LHS"), " has more rows than ", 
+                              crayon::bold("RHS"), ". The last ", n1-n2, 
+                              " row(s) of ", crayon::bold("LHS"), 
                               " have been removed.\n")))
     x <- x[1:n2, ]
   }
   
   if(n2 > n1) {
-    cat(crayon::yellow(paste0(crayon::bold("y"), " has more rows than ", 
-                              crayon::bold("x"), ". The last ", n2-n1, 
-                              " row(s) of ", crayon::bold("y"), 
+    cat(crayon::yellow(paste0(crayon::bold("RHS"), " has more rows than ", 
+                              crayon::bold("LHS"), ". The last ", n2-n1, 
+                              " row(s) of ", crayon::bold("RHS"), 
                               " have been removed.\n")))
     y <- y[1:n1, ]
   }
@@ -125,12 +125,12 @@
     if(types.tally[r, "Same"] == FALSE) {
       row <- types.tally[r, ]
       if(row$PowerY > row$PowerX) {
-        cat(crayon::yellow(paste0("Column '", row$Column, "' in ", crayon::bold("x"), 
+        cat(crayon::yellow(paste0("Column '", row$Column, "' in ", crayon::bold("LHS"), 
                                   " has been coerced from ", row$ColTypeX, 
                                   " to ", row$StrongerType, ".\n")))
         x[, row$Column] <- .as(x[, row$Column], type = row$StrongerType)
       } else {
-        cat(crayon::yellow(paste0("Column '", row$Column, "' in ", crayon::bold("y"), 
+        cat(crayon::yellow(paste0("Column '", row$Column, "' in ", crayon::bold("RHS"), 
                                   " has been coerced from ", row$ColTypeY, 
                                   " to ", row$StrongerType, ".\n")))
         y[, row$column] <- .as(y[, row$Column], type = row$StrongerType)
