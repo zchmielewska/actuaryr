@@ -19,7 +19,10 @@ LazyData: true
 RoxygenNote: 7.0.2
 Imports: 
     lubridate,
-    dplyr
+    dplyr,
+    magrittr,
+    crayon,
+    purrr
 Suggests: 
     testthat,
     knitr,

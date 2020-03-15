@@ -1,6 +1,31 @@
+# jak wyglada diagnostic message jak jest kilka kolumn, zmiennych
+
 # logicals?
 # one column?
-# not data frames
+
+x <- data.frame(
+  a = letters[1:3],
+  b = letters[1:3],
+  c = letters[1:3]
+)
+y <- data.frame(
+  a = letters[1:3],
+  b = letters[1:3],
+  c = letters[1:3]
+)
+compare(x, y)
+
+x <- data.frame(
+  a = rep(1, 4),
+  b = rep(2, 4),
+  c = rep(3, 4)
+)
+y <- data.frame(
+  a = rep(1, 3),
+  b = rep(2, 3),
+  c = rep(3, 3)
+)
+compare(x, y)
 
 # ex. the same - numericals
 x <- data.frame(
@@ -71,5 +96,3 @@ y <- data.frame(
   a = c(FALSE, FALSE)
 )
 compare(x, y)
-
-compare(1:3, 1:2)

@@ -16,22 +16,32 @@
   y <- tables$y
   
   # factors, POSIXct and Dates are converted to strings
+  factor.columns.x <- c()
   for(j in 1:ncol(x)) {
     class <- class(x[, j])[1] # POSIXct inherits from two classes
     if(class == "factor" | class == "Date" | class == "POSIXct") {
-      cat(crayon::yellow(paste0("Column '", colnames(x)[j], "' in ", crayon::bold("LHS"), 
-                                " has been coerced from ", class, " to character.\n")))
+      factor.columns.x <- c(factor.columns.x, colnames(x)[j])
       x[, j] <- as.character(x[, j])
     } 
   }
+  if(length(factor.columns.x) > 0) {
+    cat(crayon::yellow(paste0("Column(s) '", paste(factor.columns.x, collapse = "', '"),
+                              "' in ", crayon::bold("LHS"), " have been coerced from ", 
+                              class, " to character.\n")))
+  }
   
+  factor.columns.y <- c()
   for(j in 1:ncol(y)) {
     class <- class(y[, j])[1]
     if(class == "factor" | class == "Date" | class == "POSIXct") {
-      cat(crayon::yellow(paste0("Column '", colnames(y)[j], "' in ", crayon::bold("RHS"), 
-                                " has been coerced from ", class, " to character.\n")))
+      factor.columns.y <- c(factor.columns.y, colnames(y)[j])
       y[, j] <- as.character(y[, j])
     } 
+  }
+  if(length(factor.columns.y) > 0) {
+    cat(crayon::yellow(paste0("Column(s) '", paste(factor.columns.y, collapse = "', '"),
+                              "' in ", crayon::bold("RHS"), " have been coerced from ", 
+                              class, " to character.\n")))
   }
   
   tables <- list(x = x, y = y)
@@ -46,12 +56,14 @@
   not.in.y <- colnames(x)[!c(colnames(x) %in% colnames(y))]
   
   if(length(not.in.x) > 0) {
-    cat(crayon::yellow(paste0("Column(s) '", not.in.x, "' are not in ", 
-                              crayon::bold("LHS"), " so they have been removed from the comparison.\n")))
+    cat(crayon::yellow(paste0("Column(s) '", paste(not.in.x, collapse = "', '"), 
+                              "' are not in ", crayon::bold("LHS"), 
+                              " so they have been removed from the comparison.\n")))
   }
   if(length(not.in.y) > 0) {
-    cat(crayon::yellow(paste0("Column(s) '", not.in.y, "' are not in ", 
-                              crayon::bold("RHS"), " so they have been removed from the comparison.\n")))
+    cat(crayon::yellow(paste0("Column(s) '", paste(not.in.y, collapse = "', '"), 
+                              "' are not in ", crayon::bold("RHS"), 
+                              " so they have been removed from the comparison.\n")))
   }
   
   common.columns <- colnames(x)[colnames(x) %in% colnames(y)]
