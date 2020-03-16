@@ -30,11 +30,11 @@ compare <- function(x, y) {
   if(!inherits(y, "data.frame")) {stop("y must be a data frame.")}
   
   tables <- list(x = x, y = y)
-  
-  tables <- .coerceToCharacter(tables) # factors, POSIXct and Dates are not handled
-  tables <- .getCommonColumns(tables)
-  tables <- .getCommonNrRows(tables)
-  tables <- .getCommonTypes(tables)
+
+  tables <- coerceToCharacter(tables) # factors, POSIXct and Dates are not handled
+  tables <- getCommonColumns(tables)
+  tables <- getCommonNrRows(tables)
+  tables <- getCommonTypes(tables)
   
   x <- tables$x 
   y <- tables$y

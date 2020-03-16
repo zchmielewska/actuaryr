@@ -8,7 +8,7 @@
 #'
 #' @return the same objected with changed type
 #' @examples
-#' .as(1:3. "character")
+#' as(1:3, "character")
 as <- function(x, type) {
   if (type == "integer") {
     result <- as.integer(x)
@@ -27,7 +27,7 @@ as <- function(x, type) {
 #' @param tables a list with two elements: x and y 
 #'
 #' @return a list with two elements: x and y 
-.coerceToCharacter <- function(tables) {
+coerceToCharacter <- function(tables) {
   x <- tables$x
   y <- tables$y
   
@@ -69,7 +69,7 @@ as <- function(x, type) {
 #' @param tables a list with two elements: x and y
 #'
 #' @return a list with two elements: x and y
-.getCommonColumns <- function(tables) {
+getCommonColumns <- function(tables) {
   x <- tables$x
   y <- tables$y
   
@@ -101,7 +101,7 @@ as <- function(x, type) {
 #' @param tables a list with two elements: x and y
 #'
 #' @return a list with two elements: x and y
-.getCommonNrRows <- function(tables) {
+getCommonNrRows <- function(tables) {
   x <- tables$x
   y <- tables$y
 
@@ -132,7 +132,7 @@ as <- function(x, type) {
 #' @param tables a list with two elements: x and y
 #'
 #' @return a list with two elements: x and y
-.getCommonTypes <- function(tables) {
+getCommonTypes <- function(tables) {
   x <- tables$x
   y <- tables$y
   
@@ -171,12 +171,12 @@ as <- function(x, type) {
         cat(crayon::yellow(paste0("Column '", row$Column, "' in ", crayon::bold("LHS"), 
                                   " has been coerced from ", row$ColTypeX, 
                                   " to ", row$StrongerType, ".\n")))
-        x[, row$Column] <- .as(x[, row$Column], type = row$StrongerType)
+        x[, row$Column] <- as(x[, row$Column], type = row$StrongerType)
       } else {
         cat(crayon::yellow(paste0("Column '", row$Column, "' in ", crayon::bold("RHS"), 
                                   " has been coerced from ", row$ColTypeY, 
                                   " to ", row$StrongerType, ".\n")))
-        y[, row$column] <- .as(y[, row$Column], type = row$StrongerType)
+        y[, row$column] <- as(y[, row$Column], type = row$StrongerType)
       }
     }
   }
