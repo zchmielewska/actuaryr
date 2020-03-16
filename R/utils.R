@@ -1,4 +1,15 @@
-.as <- function(x, type) {
+#' Change into a chosen type
+#'
+#' @param x object to be coerced 
+#' @param type type to be coerced into
+#'
+#' The "type" parameter takes one of the three values: "integer", "double" 
+#' or "character".
+#'
+#' @return the same objected with changed type
+#' @examples
+#' .as(1:3. "character")
+as <- function(x, type) {
   if (type == "integer") {
     result <- as.integer(x)
   } else if (type == "double") {
@@ -11,6 +22,11 @@
   return(result)
 }
 
+#' Coerce factors/POSIXct/Dates into characters
+#'
+#' @param tables a list with two elements: x and y 
+#'
+#' @return a list with two elements: x and y 
 .coerceToCharacter <- function(tables) {
   x <- tables$x
   y <- tables$y
@@ -48,6 +64,11 @@
   return(tables)
 }
 
+#' Get common columns across two tables
+#'
+#' @param tables a list with two elements: x and y
+#'
+#' @return a list with two elements: x and y
 .getCommonColumns <- function(tables) {
   x <- tables$x
   y <- tables$y
@@ -75,6 +96,11 @@
   return(tables)
 }
 
+#' Get common number of rows across two tables 
+#'
+#' @param tables a list with two elements: x and y
+#'
+#' @return a list with two elements: x and y
 .getCommonNrRows <- function(tables) {
   x <- tables$x
   y <- tables$y
@@ -101,6 +127,11 @@
   return(tables)
 }
 
+#' Get common types of columns across two tables
+#'
+#' @param tables a list with two elements: x and y
+#'
+#' @return a list with two elements: x and y
 .getCommonTypes <- function(tables) {
   x <- tables$x
   y <- tables$y
