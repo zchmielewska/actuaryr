@@ -1,4 +1,10 @@
 #' Compare two tables.
+#' 
+#' Returns the effect of comparison of the two tables. It gets common columns
+#' and number of rows of the two tables. In case of type mismatches, 
+#' it coerces the weaker type into a stronger type. The output contains 
+#' the absolute difference for numerical values and the_same/different for
+#' characters.
 #'
 #' @param x the first data frame
 #' @param y the second data frame
