@@ -5,15 +5,11 @@
 
 ## R CMD check --as-cran results
 
-There were no ERRORs nor WARNINGs.
-There was 1 NOTE that this is a new submission.
+There were no ERRORs, WARNINGs nor NOTEs.
 
-## Changes
+## Changes in new version
 
 Four new function added:
 
-* changed the title to a less generic version
-* extended the description of the package
-* updated YEAR in the LICENSE file
-
-There are no external references, so they haven't been added.
+* three data reference functions: dref_mtd(), dref_qtd() and dref_mtd()
+* function to compare two tables: compare()
