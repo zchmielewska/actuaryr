@@ -64,4 +64,21 @@ test_that("compare() coerces to stronger type in common columns", {
   expect_equal(compare(x, y), res)
 })
 
-
+test_that("compare() combines all methods", {
+  x <- data.frame(
+    v1 = c(1, 2, 3),
+    v2 = c(1, 2, 3),
+    v3 = c(1, 2, 3)
+    )
+  y <- data.frame(
+    v1 = c("1", "2", "3", "4"),
+    v3 = rep(4, 4),
+    stringsAsFactors = FALSE
+    )
+  res <- data.frame(
+    v1 = rep("the_same", 3),
+    v3 = c(-3, -2, -1),
+    stringsAsFactors = FALSE
+  )
+  expect_equal(compare(x, y), res)
+})

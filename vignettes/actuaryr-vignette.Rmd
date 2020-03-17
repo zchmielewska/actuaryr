@@ -14,7 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+You can load `actuaryr` package with:
+
+```{r, warning = FALSE}
 library(actuaryr)
 ```
 
@@ -151,7 +153,7 @@ dref_lwdoy("2020-09-21")
 ## Reference dates from the previous period
 
 The functions return the last day of the previous month, quarter or year.
-These functions might be of use if, for example, you are preparing
+These functions might be of use if you are preparing, for example, 
 the results for the first quarter of 2020 (Q1 2020) and want to compare them
 against the year-end results (YE 2019).
 
@@ -161,7 +163,7 @@ The functions are:
 * `dref_qtd()` - returns quarter-to-date
 * `dref_ytd()` - returns year-to-date
 
-There is no distinction for days and working days. 
+There is no distinction between days and working days. 
 `dref_mtd()`, `dref_qtd()` and `dref_ytd()` always return the last day 
 of the preceding time period.
 
@@ -174,7 +176,7 @@ and the reference dates have been marked with green.
 knitr::include_graphics("img/dref_mtd.png")
 ```
 
-```{r}
+```{r, eval=FALSE}
 dref_mtd("2020-02-14")
 ```
 
@@ -184,7 +186,7 @@ dref_mtd("2020-02-14")
 knitr::include_graphics("img/dref_qtd.png")
 ```
 
-```{r}
+```{r, eval=FALSE}
 dref_qtd("2020-05-24")
 ```
 
@@ -194,6 +196,44 @@ dref_qtd("2020-05-24")
 knitr::include_graphics("img/dref_ytd.png")
 ```
 
-```{r}
+```{r, eval=FALSE}
 dref_ytd("2020-09-21")
 ```
+
+# Compare
+
+A big chunk of actuarial life consists of comparing things.
+
+After preparing assumptions tables and policy data for valuation models,
+it's useful to check how they change over a reporting period 
+to understand the magnitude of movements.
+
+Also during the model development, it's important to understand the impact
+of the development on the results.
+The regression analysis helps to understand the impact of each step.
+
+The following approach is used within `compare()`:
+
+* Only common columns are compared; the rest of the columns are ignored.
+* Only common rows are compared; if one data frame has more rows, the extra rows 
+are removed.
+* If the same columns have different types, the weaker type gets coerced to 
+the stronger type (where: logical < integer < double < character).
+* The comparison's result depends on the type: 
+  * for numericals the absolute difference is returned, 
+  * for characters either `the_same` or `different` is returned.
+
+```{r, eval=FALSE}
+x <- data.frame(
+  v1 = c(1, 2, 3),
+  v2 = c(1, 2, 3),
+  v3 = c(1, 2, 3)
+  )
+y <- data.frame(
+  v1 = c("1", "2", "3", "4"),
+  v3 = rep(4, 4),
+  stringsAsFactors = FALSE
+  )
+compare(x, y)
+```
+
