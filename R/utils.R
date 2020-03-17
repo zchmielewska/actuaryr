@@ -88,6 +88,9 @@ getCommonColumns <- function(tables) {
   }
   
   common.columns <- colnames(x)[colnames(x) %in% colnames(y)]
+  if(length(common.columns) == 0) {
+    stop("Tables don't have common columns.", call. = FALSE)
+  }
   
   x <- x[common.columns]
   y <- y[common.columns]
@@ -112,7 +115,7 @@ getCommonNrRows <- function(tables) {
                               crayon::bold("RHS"), ". The last ", n1-n2, 
                               " row(s) of ", crayon::bold("LHS"), 
                               " have been removed.\n")))
-    x <- x[1:n2, ]
+    x <- as.data.frame(x[1:n2, ])
   }
   
   if(n2 > n1) {
@@ -120,7 +123,7 @@ getCommonNrRows <- function(tables) {
                               crayon::bold("LHS"), ". The last ", n2-n1, 
                               " row(s) of ", crayon::bold("RHS"), 
                               " have been removed.\n")))
-    y <- y[1:n1, ]
+    y <- as.data.frame(y[1:n1, ])
   }
   
   tables <- list(x = x, y = y)
