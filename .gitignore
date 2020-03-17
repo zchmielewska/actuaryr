@@ -2,4 +2,5 @@
 ^\.Rproj\.user$
 ^\.Rhistory
 .Rproj.user
-^notes\.R$
+.Rhistory
+.RData
