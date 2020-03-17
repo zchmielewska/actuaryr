@@ -5,13 +5,12 @@
 
 ## R CMD check --as-cran results
 
-There were no ERRORs nor WARNINGss.
+There were no ERRORs nor WARNINGs.
 There was 1 NOTE that this is a new submission.
 
-## Resubmission comments
+## Changes
 
-The first submission has been reviewed by Jelena Saf.
-As a result, the following changes have been introduced.
+Four new function added:
 
 * changed the title to a less generic version
 * extended the description of the package
