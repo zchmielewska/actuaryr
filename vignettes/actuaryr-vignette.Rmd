@@ -14,22 +14,27 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+You can load `actuaryr` package with:
+
+```{r, warning = FALSE}
 library(actuaryr)
 ```
 
 # Date reference functions
 
-## Purpose
+First and last days of months, quarters and years are of special meaning 
+for business reporting.
 
-Business reports are prepared once a month, once a quarter or once a year.
-Analysts often compare business results against previous periods. 
-First and last days of a given period are of special significance for reporting.
+The business reports are usually created for the last day of some period, 
+like a month or a year. They enclose data for the first day of this period up 
+to the last. If you create your report in the middle of the period, you may 
+need to quickly refer to these dates.
 
 The `dref_` prefix stands for **d**ate **ref**erence functions. 
-The functions with the `dref_` prefix return a reference date to the chosen date.
+The functions with the `dref_` prefix return a reference date to the base 
+date.
 
-## Functions
+## Reference dates within a time period
 
 The functions work within three types of periods:
 
@@ -79,8 +84,15 @@ The base date has been marked with orange.
 knitr::include_graphics("img/dref_monthly.png")
 ```
 
-### Quarterly periods
+```{r}
+dref_fdom("2020-02-14")
+dref_fwdom("2020-02-14")
+dref_ldom("2020-02-14")
+dref_lwdom("2020-02-14")
+```
 
+
+### Quarterly periods
 
 The reference dates in the image below can be retrieved 
 with the following functions:
@@ -93,12 +105,20 @@ with the following functions:
 The base date has been marked with orange.
 
 **Watch out!** 
-The first day of a year is the same as the first working day of a year. 
-The last day of a year is the same as the last working day of a year.
+The first day in this time period is the same as the first working day 
+in this time period. The last day of this time period is the same as 
+the last working day of this time period.
 Hence, the same day is marked with two colors (darker and lighter).
 
 ```{r, echo = FALSE, out.width = "600px"}
 knitr::include_graphics("img/dref_quarterly.png")
+```
+
+```{r}
+dref_fdoq("2020-05-24")
+dref_fwdoq("2020-05-24")
+dref_ldoq("2020-05-24")
+dref_lwdoq("2020-05-24")
 ```
 
 ### Yearly periods
@@ -114,10 +134,106 @@ with the following functions:
 The base date has been marked with orange.
 
 **Watch out!** 
-The first day of a year is the same as the first working day of a year. 
-The last day of a year is the same as the last working day of a year.
+The first day in this time period is the same as the first working day 
+in this time period. The last day of this time period is the same as 
+the last working day of this time period.
 Hence, the same day is marked with two colors (darker and lighter).
 
 ```{r, echo = FALSE, out.width = "600px"}
 knitr::include_graphics("img/dref_yearly.png")
 ```
+
+```{r}
+dref_fdoy("2020-09-21")
+dref_fwdoy("2020-09-21")
+dref_ldoy("2020-09-21")
+dref_lwdoy("2020-09-21")
+```
+
+## Reference dates from the previous period
+
+The functions return the last day of the previous month, quarter or year.
+These functions might be of use if you are preparing, for example, 
+the results for the first quarter of 2020 (Q1 2020) and want to compare them
+against the year-end results (YE 2019).
+
+The functions are:
+
+* `dref_mtd()` - returns month-to-date
+* `dref_qtd()` - returns quarter-to-date
+* `dref_ytd()` - returns year-to-date
+
+There is no distinction between days and working days. 
+`dref_mtd()`, `dref_qtd()` and `dref_ytd()` always return the last day 
+of the preceding time period.
+
+In the images below, the base dates have been marked with orange 
+and the reference dates have been marked with green.
+
+### Month-to-date
+
+```{r, echo = FALSE, out.width = "600px"}
+knitr::include_graphics("img/dref_mtd.png")
+```
+
+```{r, eval=FALSE}
+dref_mtd("2020-02-14")
+```
+
+### Quarter-to-date
+
+```{r, echo = FALSE, out.width = "600px"}
+knitr::include_graphics("img/dref_qtd.png")
+```
+
+```{r, eval=FALSE}
+dref_qtd("2020-05-24")
+```
+
+### Year-to-date
+
+```{r, echo = FALSE, out.width = "600px"}
+knitr::include_graphics("img/dref_ytd.png")
+```
+
+```{r, eval=FALSE}
+dref_ytd("2020-09-21")
+```
+
+# Compare
+
+A big chunk of actuarial life consists of comparing things.
+
+After preparing assumptions tables and policy data for valuation models,
+it's useful to check how they change over a reporting period 
+to understand the magnitude of movements.
+
+Also during the model development, it's important to understand the impact
+of the development on the results.
+The regression analysis helps to understand the impact of each step.
+
+The following approach is used within `compare()`:
+
+* Only common columns are compared; the rest of the columns are ignored.
+* Only common rows are compared; if one data frame has more rows, the extra rows 
+are removed.
+* If the same columns have different types, the weaker type gets coerced to 
+the stronger type (where: logical < integer < double < character).
+* The comparison's result depends on the type: 
+  * for numericals the absolute difference is returned, 
+  * for characters either `the_same` or `different` is returned.
+
+```{r, eval=FALSE}
+x <- data.frame(
+  v1 = c(1, 2, 3),
+  v2 = c(1, 2, 3),
+  v3 = c(1, 2, 3)
+  )
+y <- data.frame(
+  v1 = c("1", "2", "3", "4"),
+  v3 = rep(4, 4),
+  stringsAsFactors = FALSE
+  )
+compare(x, y)
+```
+
