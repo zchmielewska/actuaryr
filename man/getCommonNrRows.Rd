@@ -15,3 +15,4 @@ a list with two elements: x and y
 \description{
 Get common number of rows across two tables
 }
+\keyword{internal}

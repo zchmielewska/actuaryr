@@ -15,3 +15,4 @@ a list with two elements: x and y
 \description{
 Coerce factors/POSIXct/Dates into characters
 }
+\keyword{internal}

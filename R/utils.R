@@ -7,6 +7,7 @@
 #' or "character".
 #'
 #' @return the same objected with changed type
+#' @keywords internal
 #' @examples
 #' as(1:3, "character")
 as <- function(x, type) {
@@ -25,7 +26,7 @@ as <- function(x, type) {
 #' Coerce factors/POSIXct/Dates into characters
 #'
 #' @param tables a list with two elements: x and y 
-#'
+#' @keywords internal
 #' @return a list with two elements: x and y 
 coerceToCharacter <- function(tables) {
   x <- tables$x
@@ -67,7 +68,7 @@ coerceToCharacter <- function(tables) {
 #' Get common columns across two tables
 #'
 #' @param tables a list with two elements: x and y
-#'
+#' @keywords internal
 #' @return a list with two elements: x and y
 getCommonColumns <- function(tables) {
   x <- tables$x
@@ -102,7 +103,7 @@ getCommonColumns <- function(tables) {
 #' Get common number of rows across two tables 
 #'
 #' @param tables a list with two elements: x and y
-#'
+#' @keywords internal
 #' @return a list with two elements: x and y
 getCommonNrRows <- function(tables) {
   x <- tables$x
@@ -133,7 +134,7 @@ getCommonNrRows <- function(tables) {
 #' Get common types of columns across two tables
 #'
 #' @param tables a list with two elements: x and y
-#'
+#' @keywords internal
 #' @return a list with two elements: x and y
 getCommonTypes <- function(tables) {
   x <- tables$x

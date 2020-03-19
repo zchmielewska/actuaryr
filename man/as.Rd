@@ -23,3 +23,4 @@ Change into a chosen type
 \examples{
 as(1:3, "character")
 }
+\keyword{internal}

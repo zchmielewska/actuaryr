@@ -15,3 +15,4 @@ a list with two elements: x and y
 \description{
 Get common columns across two tables
 }
+\keyword{internal}
