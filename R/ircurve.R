@@ -1,15 +1,22 @@
-new_ircurve <- function(x = double(), type, period) {
-  stopifnot(is.double(x))
-  type <- match.arg(type, c("forward", "spot"))
+
+as_ircurve <- function(x, type = "forward", period = "year") {
+  type   <- match.arg(type, c("forward", "spot"))
   period <- match.arg(period, c("month", "year"))
-  structure(x, 
-            class = "ircurve",
-            type = type,
-            period = period)
+  
+  result <- structure(x, 
+                      class = "ircurve",
+                      type = type,
+                      period = period)
+  return(result)
 }
 
-ircurve <- function(x, type = "forward", period = "month") {
-  new_ircurve(x, type, period)
+y <- as_ircurve(1:3, type = "spot")
+
+g <- function(x) {
+  x <- 10
+  y <- 10
+  UseMethod("g")
 }
 
-ircurve(x = c(1, 2, 3))
+g.default <- function(x) c(x = x, y = y)
+
