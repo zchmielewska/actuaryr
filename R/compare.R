@@ -1,4 +1,4 @@
-#' Compare two tables.
+#' Compare two tables
 #' 
 #' Returns the effect of comparison of the two tables. It gets common columns
 #' and number of rows of the two tables. In case of type mismatches, 
