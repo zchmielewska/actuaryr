@@ -82,3 +82,14 @@ test_that("compare() combines all methods", {
   )
   expect_equal(compare(x, y), res)
 })
+
+test_that("compare() works for tibbles", {
+  x <- tibble::tibble(v1 = 1:3)
+  y <- tibble::tibble(v1 = 1:3)
+  res <- data.frame(
+    v1 = rep(0, 3),
+    stringsAsFactors = FALSE
+  )
+  expect_equal(compare(x, y), res)
+  
+})

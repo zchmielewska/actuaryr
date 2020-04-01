@@ -30,8 +30,8 @@ compare <- function(x, y) {
   if(!inherits(y, "data.frame")) {stop("y must be a data frame.")}
   
   # type of columns in tibbles are lists
-  if(is_tibble(x)) x <- as.data.frame(x)
-  if(is_tibble(y)) y <- as.data.frame(y)
+  if(tibble::is_tibble(x)) x <- as.data.frame(x)
+  if(tibble::is_tibble(y)) y <- as.data.frame(y)
   
   tables <- list(x = x, y = y)
 
