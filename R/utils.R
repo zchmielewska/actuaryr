@@ -28,7 +28,7 @@ as <- function(x, type) {
 #' @param tables a list with two elements: x and y 
 #' @keywords internal
 #' @return a list with two elements: x and y 
-coerceToCharacter <- function(tables) {
+coerce_to_character <- function(tables) {
   x <- tables$x
   y <- tables$y
   
@@ -70,7 +70,7 @@ coerceToCharacter <- function(tables) {
 #' @param tables a list with two elements: x and y
 #' @keywords internal
 #' @return a list with two elements: x and y
-getCommonColumns <- function(tables) {
+get_common_columns <- function(tables) {
   x <- tables$x
   y <- tables$y
   
@@ -105,7 +105,7 @@ getCommonColumns <- function(tables) {
 #' @param tables a list with two elements: x and y
 #' @keywords internal
 #' @return a list with two elements: x and y
-getCommonNrRows <- function(tables) {
+get_common_nr_rows <- function(tables) {
   x <- tables$x
   y <- tables$y
 
@@ -136,7 +136,7 @@ getCommonNrRows <- function(tables) {
 #' @param tables a list with two elements: x and y
 #' @keywords internal
 #' @return a list with two elements: x and y
-getCommonTypes <- function(tables) {
+get_common_types <- function(tables) {
   x <- tables$x
   y <- tables$y
   
