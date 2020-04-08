@@ -1,22 +1,20 @@
 
-as_ircurve <- function(x, type = "forward", period = "year") {
+create_ircurve <- function(x = double(), type = "forward", period = "year") {
   type   <- match.arg(type, c("forward", "spot"))
   period <- match.arg(period, c("month", "year"))
   
-  result <- structure(x, 
+  ircurve <- structure(x, 
                       class = "ircurve",
                       type = type,
                       period = period)
-  return(result)
+  return(ircurve)
 }
 
-y <- as_ircurve(1:3, type = "spot")
-
-g <- function(x) {
-  x <- 10
-  y <- 10
-  UseMethod("g")
+print.ircurve <- function(ircurve) {
+  cat(crayon::silver(paste0("Interest rate curve\nType: ", attributes(ircurve)$type, "\nPeriod: ", attributes(ircurve)$period, "\nRates:\n")))
+  as.vector(ircurve)
 }
 
-g.default <- function(x) c(x = x, y = y)
+ircurve <- create_ircurve(rep(0.01, 10))
 
+print(ircurve)
