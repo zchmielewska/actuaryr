@@ -54,7 +54,19 @@ change_period <- function(ircurve, to_period) {
   
   
   ### In development
-  if(to_period == "year"  & type == "forward") { }
+  if(to_period == "year"  & type == "forward") { 
+    # check if divideable by 12
+    x <-c(rep(0.1, 12), 0.2)
+    if((length(x) %% 12) != 0) {
+      warning(paste0("The last available rate has been assumed for the months remaining to full year."))
+      y <- append(x, rep(x[length(x)], 12 - (length(x) %% 12)))
+      length(y)
+    }
+    
+  
+      
+    
+  }
   if(to_period == "year"  & type == "spot") { }
   if(to_period == "month" & type == "forward") { }
   if(to_period == "month" & type == "spot") { }
