@@ -43,3 +43,21 @@ change_type <- function(ircurve, to_type) {
     return(forward)
   }
 }
+
+change_period <- function(ircurve, to_period) {
+  if(!inherits(ircurve, "ircurve")) ircurve <- as_ircurve(ircurve)
+  to_period   <- match.arg(to_period, c("month", "year"))
+  from_period <- attributes(ircurve)$period
+  type        <- attributes(ircurve)$type
+  
+  if(from_period == to_period) return(ircurve)
+  
+  
+  ### In development
+  if(to_period == "year"  & type == "forward") { }
+  if(to_period == "year"  & type == "spot") { }
+  if(to_period == "month" & type == "forward") { }
+  if(to_period == "month" & type == "spot") { }
+  ### In development
+  
+}
