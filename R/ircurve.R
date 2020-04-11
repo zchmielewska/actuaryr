@@ -1,3 +1,19 @@
+#' Create an interest rates curve
+#'
+#' Creates an object of class ircurve which represents in interest rates curve.
+#' The curve cosists of interest rates and is of type either "forward" or
+#' "spot". The interest rates curve can be for monthly or yearly periods.
+#'
+#' @param rates vector of rates
+#' @param type "forward" or "spot"
+#' @param period "year" or "month"
+#'
+#' @return Interest rates curve, an object of class ircurve.
+#' @export
+#'
+#' @examples
+#' as_ircurve(c(0.01, 0.015))
+#' as_ircurve(c(0.002, 0.001), type = "spot", period = "month")
 as_ircurve <- function(rates = double(), type = "forward", period = "year") {
   type   <- match.arg(type, c("forward", "spot"))
   period <- match.arg(period, c("month", "year"))
@@ -9,17 +25,32 @@ as_ircurve <- function(rates = double(), type = "forward", period = "year") {
   return(ircurve)
 }
 
-change_type <- function(ircurve, to_type) {
+#' Change the type of an interest rates curve
+#'
+#' Changes the type of an interest rates curve (object of class ircurve) 
+#' from forward to spot or vice versa.
+#'
+#' @param ircurve an object of class ircurve
+#' @param to "forward" or "spot"
+#'
+#' @return An object of class ircurve with changed type.
+#' @export
+#'
+#' @examples
+#' my_ircurve <- as_ircurve(c(0.1, 0.2, 0.3), type = "spot")
+#' change_type(my_ircurve, to = "forward")
+change_type <- function(ircurve, to) {
   if(!inherits(ircurve, "ircurve")) ircurve <- as_ircurve(ircurve)
-  to_type   <- match.arg(to_type, c("forward", "spot"))
-  from_type <- attributes(ircurve)$type
+  to   <- match.arg(to, c("forward", "spot"))
+  from <- attributes(ircurve)$type
   
-  if(from_type == to_type) return(ircurve)
+  if(from == to) return(ircurve)
   
-  if(from_type == "forward" & to_type == "spot") {
+  # from = forward; to = spot
+  if(from == "forward" & to == "spot") {
     forward <- ircurve
     spot    <- as_ircurve(rates = 0)
-    attributes(spot)$type <- to_type
+    attributes(spot)$type <- to
     
     for (n in seq_along(forward)) {
       spot[n] <- prod(1+forward[1:n])^(1/n)-1
@@ -27,10 +58,11 @@ change_type <- function(ircurve, to_type) {
     return(spot)
   }
   
-  if(from_type == "spot" & to_type == "forward") {
+  # from = spot; to = forward
+  if(from == "spot" & to == "forward") {
     spot    <- ircurve
     forward <- as_ircurve(rates = 0)
-    attributes(forward)$type <- to_type
+    attributes(forward)$type <- to
     
     for (n in seq_along(spot)) {
       if(n == 1) {
@@ -43,16 +75,30 @@ change_type <- function(ircurve, to_type) {
   }
 }
 
-change_period <- function(ircurve, to_period) {
+#' Change the period of an interest rates curve
+#'
+#' Changes the period of an interest rates curve (object of class ircurve)
+#' from year to monthl or vice versa.
+#'
+#' @param ircurve an object of class ircurve
+#' @param to "year" or "month" 
+#'
+#' @return An object of class ircurve with changed type.
+#' @export
+#'
+#' @examples
+#' my_ircurve <- as_ircurve(rep(0.01, 12), period = "month")
+#' change_period(my_ircurve, to = "year")
+change_period <- function(ircurve, to) {
   if(!inherits(ircurve, "ircurve")) ircurve <- as_ircurve(ircurve)
-  to_period   <- match.arg(to_period, c("month", "year"))
-  from_period <- attributes(ircurve)$period
-  type        <- attributes(ircurve)$type
+  to   <- match.arg(to, c("month", "year"))
+  from <- attributes(ircurve)$period
+  type <- attributes(ircurve)$type
   
-  if(from_period == to_period) return(ircurve)
+  if(from == to) return(ircurve)
   
   # from = month; to = year | forward
-  if(to_period == "year"  & type == "forward") {
+  if(to == "year"  & type == "forward") {
     ircurve_month <- ircurve
     
     # curve must include full year data
@@ -76,7 +122,7 @@ change_period <- function(ircurve, to_period) {
   }
   
   # from = year; to = month | forward
-  if(to_period == "month" & type == "forward") { 
+  if(to == "month" & type == "forward") { 
     ircurve_year <- ircurve
     
     rates_month <- c()
@@ -89,7 +135,7 @@ change_period <- function(ircurve, to_period) {
   }
   
   # from = month; to = year | spot
-  if(to_period == "year"  & type == "spot") { 
+  if(to == "year"  & type == "spot") { 
     ircurve_month <- ircurve
     
     # curve must include full year data
@@ -112,8 +158,7 @@ change_period <- function(ircurve, to_period) {
   }
   
   # from = year; to = month | spot
-  if(to_period == "month" & type == "spot") { 
-    stop("Not developed yet.")
+  if(to == "month" & type == "spot") { 
     ircurve_year <- ircurve
     
     rates_month <- c()
