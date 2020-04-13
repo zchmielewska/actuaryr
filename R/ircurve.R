@@ -194,4 +194,5 @@ print.ircurve <- function(x, ...) {
   cat(paste("Period:", period, "\n"))
   cat(paste("Rates:\n"))
   print(as.numeric(ircurve))
+  invisible(x)
 }
