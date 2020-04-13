@@ -9,7 +9,4 @@ There were no ERRORs, WARNINGs nor NOTEs.
 
 ## Changes in new version
 
-Four new function added:
-
-* three data reference functions: dref_mtd(), dref_qtd() and dref_mtd()
-* function to compare two tables: compare()
+Hotfix: align compare() to tibbles

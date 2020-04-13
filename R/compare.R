@@ -29,12 +29,16 @@ compare <- function(x, y) {
   if(!inherits(x, "data.frame")) {stop("x must be a data frame.")}
   if(!inherits(y, "data.frame")) {stop("y must be a data frame.")}
   
+  # type of columns in tibbles are lists
+  if(tibble::is_tibble(x)) x <- as.data.frame(x)
+  if(tibble::is_tibble(y)) y <- as.data.frame(y)
+  
   tables <- list(x = x, y = y)
 
-  tables <- coerceToCharacter(tables) # factors, POSIXct and Dates are not handled
-  tables <- getCommonColumns(tables)
-  tables <- getCommonNrRows(tables)
-  tables <- getCommonTypes(tables)
+  tables <- coerce_to_character(tables) # factors, POSIXct and Dates are not handled
+  tables <- get_common_columns(tables)
+  tables <- get_common_nr_rows(tables)
+  tables <- get_common_types(tables)
   
   x <- tables$x 
   y <- tables$y
