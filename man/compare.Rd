@@ -2,7 +2,7 @@
 % Please edit documentation in R/compare.R
 \name{compare}
 \alias{compare}
-\title{Compare two tables.}
+\title{Compare two tables}
 \usage{
 compare(x, y)
 }
