@@ -171,3 +171,24 @@ change_period <- function(ircurve, to) {
   }
   return(result)
 }
+
+#' Print ircurve
+#'
+#' @param ircurve an object of class ircurve
+#'
+#' @return nothing, prints an ircurve
+#' @export
+#'
+#' @examples
+#' my_ircurve <- as_ircurve(c(0.018, 0.02, 0.022))
+#' print(my_ircurve)
+print.ircurve <- function(ircurve) {
+  type   <- attributes(ircurve)$type
+  period <- attributes(ircurve)$period
+  
+  cat("Interest rate curve\n")
+  cat(paste("Type:  ", type, "\n"))
+  cat(paste("Period:", period, "\n"))
+  cat(paste("Rates:\n"))
+  print(as.numeric(ircurve))
+}
