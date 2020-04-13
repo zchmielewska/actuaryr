@@ -1,6 +1,7 @@
 # actuaryr 1.1.1
 
 - aligned compare() to tibbles
+- added functions for interest rates curve
 
 # actuaryr 1.1.0
 

@@ -9,4 +9,4 @@ There were no ERRORs, WARNINGs nor NOTEs.
 
 ## Changes in new version
 
-Hotfix: align compare() to tibbles
+Developed compare() to work with tibbles and added interest ractes
